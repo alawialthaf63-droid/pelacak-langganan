@@ -17,6 +17,8 @@
         input, select { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #2c3a49; background: #0b0f14; color: #e6edf3; }
         button { padding: 10px 16px; border: 0; border-radius: 6px; background: #4dd0e1; color: #06222a; font-weight: 700; cursor: pointer; }
         button.del { background: transparent; color: #f87171; padding: 4px 8px; }
+        a.edit { color: #4dd0e1; text-decoration: none; font-weight: 700; font-size: 13px; }
+        .row-actions { display: flex; gap: 8px; align-items: center; }
         table { width: 100%; border-collapse: collapse; }
         th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid #222d3a; }
         .error { color: #f87171; font-size: 13px; }
@@ -80,11 +82,14 @@
                         <td>{{ $s->billing_cycle === 'yearly' ? 'Tahunan' : 'Bulanan' }}</td>
                         <td>{{ $s->next_billing_date->format('d M Y') }}</td>
                         <td>
-                            <form method="POST" action="{{ route('subscriptions.destroy', $s) }}">
-                                @csrf
-                                @method('DELETE')
-                                <button class="del" type="submit">Hapus</button>
-                            </form>
+                            <div class="row-actions">
+                                <a class="edit" href="{{ route('subscriptions.edit', $s) }}">Edit</a>
+                                <form method="POST" action="{{ route('subscriptions.destroy', $s) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="del" type="submit">Hapus</button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 @endforeach

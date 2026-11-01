@@ -29,15 +29,19 @@ class SubscriptionController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:100',
-            'price' => 'required|integer|min:0',
-            'billing_cycle' => 'required|in:monthly,yearly',
-            'next_billing_date' => 'required|date',
-            'category' => 'nullable|string|max:50',
-        ]);
+        Subscription::create($this->validated($request));
 
-        Subscription::create($data);
+        return redirect()->route('subscriptions.index');
+    }
+
+    public function edit(Subscription $subscription)
+    {
+        return view('subscriptions.edit', compact('subscription'));
+    }
+
+    public function update(Request $request, Subscription $subscription)
+    {
+        $subscription->update($this->validated($request));
 
         return redirect()->route('subscriptions.index');
     }
@@ -47,5 +51,17 @@ class SubscriptionController extends Controller
         $subscription->delete();
 
         return redirect()->route('subscriptions.index');
+    }
+
+    // Aturan validasi dipakai bersama oleh store dan update.
+    private function validated(Request $request): array
+    {
+        return $request->validate([
+            'name' => 'required|string|max:100',
+            'price' => 'required|integer|min:0',
+            'billing_cycle' => 'required|in:monthly,yearly',
+            'next_billing_date' => 'required|date',
+            'category' => 'nullable|string|max:50',
+        ]);
     }
 }
