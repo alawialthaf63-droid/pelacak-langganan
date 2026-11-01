@@ -30,4 +30,25 @@ class Subscription extends Model
             ? $this->price / 12
             : $this->price;
     }
+
+    // Geser tanggal tagihan ke periode berikutnya sampai tidak lagi di masa lalu.
+    // Mengembalikan true kalau tanggalnya memang bergeser.
+    public function advanceBillingDate(): bool
+    {
+        $date = $this->next_billing_date->copy();
+        $moved = false;
+
+        while ($date->lt(today())) {
+            $date = $this->billing_cycle === 'yearly'
+                ? $date->addYear()
+                : $date->addMonthNoOverflow();
+            $moved = true;
+        }
+
+        if ($moved) {
+            $this->update(['next_billing_date' => $date]);
+        }
+
+        return $moved;
+    }
 }
