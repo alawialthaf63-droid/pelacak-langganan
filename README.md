@@ -2,6 +2,8 @@
 
 Aplikasi web untuk mencatat langganan (Netflix, Spotify, domain, hosting, dll), menghitung total pengeluaran per bulan, dan mengingatkan tagihan yang segera jatuh tempo.
 
+![Screenshot Pelacak Langganan](docs/Screenshot.png)
+
 ## Fitur
 
 - Tambah, ubah, dan hapus langganan
@@ -11,11 +13,14 @@ Aplikasi web untuk mencatat langganan (Netflix, Spotify, domain, hosting, dll), 
 
 ## Teknologi
 
-Laravel 13, PHP 8.4+, SQLite, Blade
+- Laravel 13
+- PHP 8.4+
+- SQLite
+- Blade
 
-## Cara menjalankan
+## Cara Menjalankan
 
-```
+```bash
 composer install
 cp .env.example .env
 php artisan key:generate
@@ -23,9 +28,9 @@ php artisan migrate
 php artisan serve
 ```
 
-Buka `http://127.0.0.1:8000`.
+Buka aplikasi melalui: http://127.0.0.1:8000
 
-## Logika utama
+## Logika Utama
 
 - `app/Models/Subscription.php`: perhitungan biaya bulanan dan fungsi `advanceBillingDate()`
 - `app/Console/Commands/AdvanceBillingDates.php`: perintah `subscriptions:advance-dates`
